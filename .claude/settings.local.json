@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Dev/zc/invitacion_boda/**)",
+      "Read(//c/Dev/zc/invitacion_boda/src/pages/**)",
+      "Read(//c/Dev/zc/invitacion_boda/src/**)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

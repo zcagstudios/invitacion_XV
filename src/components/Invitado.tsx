@@ -54,23 +54,29 @@ const InvitadoComponent: React.FC = () => {
 
   const handleConfirmar = async (status: RSVPStatus) => {
     if (invitado) {
-      const { data, error } = await supabase
-        .from('invitados')
-        .update({ confirmado: status })
-        .eq('id', invitado.id)
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from('invitados')
+          .update({ confirmado: status })
+          .eq('id', invitado.id)
+          .select();
 
-      if (error) {
-        console.error('Error al actualizar la confirmación:', error);
-      } else {
-        if (data && data.length > 0) {
-          setInvitado(data[0] as Invitado);
+        if (error) {
+          console.error('Error al actualizar la confirmación:', error);
+          setError('Error al actualizar. Por favor, verifica la configuración de Supabase.');
+        } else {
+          if (data && data.length > 0) {
+            setInvitado(data[0] as Invitado);
 
-          if (status === RSVPStatus.attending) {
-            setShowConfetti(true);
-            setTimeout(() => setShowConfetti(false), 5000);
+            if (status === RSVPStatus.attending) {
+              setShowConfetti(true);
+              setTimeout(() => setShowConfetti(false), 5000);
+            }
           }
         }
+      } catch (err) {
+        console.error('Error de red:', err);
+        setError('Error de conexión. Verifica que Supabase esté configurado correctamente.');
       }
     }
   };

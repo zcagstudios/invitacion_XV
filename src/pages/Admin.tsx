@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Trash2, Send } from 'lucide-react';
 import Modal from '../components/Modal';
 import { supabase } from '../lib/supabase';
-import { Invitado, RSVPStatus } from '../types';
+import type { Invitado } from '../types';
+import { RSVPStatus } from '../types';
 import { generateCodigo } from '../lib/utils';
 
 const AdminPage: React.FC = () => {

@@ -8,8 +8,10 @@ export interface Invitado {
   parte: 'Marcelo' | 'Marcela';
 }
 
-export enum RSVPStatus {
-  attending = 'Si',
-  pending = 'Pendiente',
-  notAttending = 'No',
-}
+export const RSVPStatus = {
+  attending: 'Si',
+  pending: 'Pendiente',
+  notAttending: 'No',
+} as const;
+
+export type RSVPStatus = typeof RSVPStatus[keyof typeof RSVPStatus];

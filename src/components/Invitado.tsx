@@ -4,7 +4,8 @@ import Confetti from 'react-confetti';
 import { RSVPButtons } from './RSVPButtons';
 import { Toaster } from './ui/toaster';
 import { supabase } from '../lib/supabase';
-import { Invitado, RSVPStatus } from '../types';
+import type { Invitado } from '../types';
+import { RSVPStatus } from '../types';
 
 const InvitadoComponent: React.FC = () => {
   const { codigo } = useParams<{ codigo: string }>();

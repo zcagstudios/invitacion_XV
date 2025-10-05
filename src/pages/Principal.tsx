@@ -1,4 +1,3 @@
-import React from 'react';
 import { Church, MapPin, Gift, Shirt, Calendar } from 'lucide-react';
 import Header from '../components/Header';
 import Section from '../components/Section';

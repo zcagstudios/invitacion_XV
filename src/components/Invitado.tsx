@@ -18,6 +18,12 @@ const InvitadoComponent: React.FC = () => {
 
   useEffect(() => {
     const fetchInvitado = async () => {
+      // Si no hay código, no intentar buscar
+      if (!codigo) {
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('invitados')
         .select('*')

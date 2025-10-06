@@ -8,12 +8,12 @@ const AccountModal: React.FC = () => {
     cuenta: false,
   });
 
-  // Datos de cuenta - MODIFICA ESTOS DATOS
-  const accountNumber = '4162 3141 0286 5287';
-  const accountName = 'Ana Luisa Anduaga';
-  const bankName = 'BBVA';
-  const cuentaBancaria = '012 760 01433748030 3';
-  const concepto = 'XV Años Marcelos';
+  // Datos de cuenta desde variables de entorno
+  const accountNumber = import.meta.env.VITE_ACCOUNT_NUMBER;
+  const accountName = import.meta.env.VITE_ACCOUNT_NAME;
+  const bankName = import.meta.env.VITE_BANK_NAME;
+  const cuentaBancaria = import.meta.env.VITE_CUENTA_CLABE;
+  const concepto = import.meta.env.VITE_CONCEPTO;
 
   const copyToClipboard = (text: string, type: 'tarjeta' | 'cuenta') => {
     navigator.clipboard.writeText(text);

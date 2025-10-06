@@ -157,8 +157,87 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const handlePrintReport = () => {
+    // Filtrar los invitados confirmados o pendientes según la parte seleccionada
+    const filteredForPrint = invitados.filter(
+      (invitado) =>
+        (invitado.confirmado === RSVPStatus.attending || invitado.confirmado === RSVPStatus.pending) &&
+        (filterParte === 'Todos' || invitado.parte === filterParte)
+    );
+
+    // Ordenar los invitados por nombre alfabéticamente
+    const sortedInvitados = [...filteredForPrint].sort((a, b) =>
+      a.nombre.localeCompare(b.nombre)
+    );
+
+    // Crear el contenido HTML del reporte
+    const reportContent = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Lista de Invitados</h2>
+        <p style="margin: 5px 0;">De: ${filterParte === 'Todos' ? 'Todos' : filterParte}</p>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 12px; font-family: Arial, sans-serif;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid #000; padding: 5px;">#</th>
+            <th style="border: 1px solid #000; padding: 5px;">Nombre</th>
+            <th style="border: 1px solid #000; padding: 5px;">Cantidad</th>
+            <th style="border: 1px solid #000; padding: 5px;">Confirmado</th>
+            <th style="border: 1px solid #000; padding: 5px;">Mesa</th>
+            <th style="border: 1px solid #000; padding: 5px;">Asistencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sortedInvitados
+            .map(
+              (invitado, index) => `
+            <tr>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center;">${index + 1}</td>
+              <td style="border: 1px solid #000; padding: 5px;">${invitado.nombre}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center;">${invitado.cantidad}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center;">${invitado.confirmado}</td>
+              <td style="border: 1px solid #000; padding: 5px;"></td>
+              <td style="border: 1px solid #000; padding: 5px;"></td>
+            </tr>
+          `
+            )
+            .join('')}
+        </tbody>
+      </table>
+    `;
+
+    // Mostrar el reporte en el contenedor para impresión
+    const reportContainer = document.getElementById('printable-report');
+    if (reportContainer) {
+      reportContainer.innerHTML = reportContent;
+      reportContainer.style.display = 'block';
+      window.print();
+      reportContainer.style.display = 'none'; // Ocultar el contenedor después de imprimir
+    } else {
+      console.error("No se encontró el contenedor de reporte.");
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen bg-gold-50">
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            #printable-report, #printable-report * {
+              visibility: visible;
+            }
+            #printable-report {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+            }
+          }
+        `}
+      </style>
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-script text-purple-600 mb-2 font-bold">
           Administrador de Invitaciones
@@ -205,7 +284,7 @@ const AdminPage: React.FC = () => {
           <span className="text-sm">Personas: {totalNoConfirmadosPersonas}</span>
         </button>
 
-        <div className="md:col-span-4">
+        <div className="md:col-span-3">
           <label className="block text-sm font-medium text-gray-700 mb-2">Filtrar por:</label>
           <select
             className="border-2 border-gold-300 px-4 py-2 rounded-lg w-full md:w-auto"
@@ -217,6 +296,15 @@ const AdminPage: React.FC = () => {
             <option value="Marcela">Invitados de Marcela</option>
             <option value="Mama">Invitados de Mama</option>
           </select>
+        </div>
+
+        <div className="md:col-span-1 flex items-end">
+          <button
+            onClick={handlePrintReport}
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium shadow w-full"
+          >
+            📋 Imprimir Lista
+          </button>
         </div>
       </div>
 
@@ -363,8 +451,8 @@ const AdminPage: React.FC = () => {
       {/* Modal Agregar */}
       {showModalAgregar && (
         <Modal onClose={() => setShowModalAgregar(false)}>
-          <h2 className="text-2xl font-script text-purple-600 mb-4">Agregar Nueva Invitación</h2>
-          <div className="grid grid-cols-1 gap-4">
+          <h2 className="text-2xl font-script text-purple-600 mb-6">Agregar Nueva Invitación</h2>
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
               <input
@@ -374,51 +462,62 @@ const AdminPage: React.FC = () => {
                 onChange={(e) => setNewInvitado({ ...newInvitado, nombre: e.target.value })}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad</label>
-              <input
-                type="number"
-                className="border-2 border-gold-300 px-4 py-2 rounded w-full"
-                value={newInvitado.cantidad}
-                onChange={(e) => setNewInvitado({ ...newInvitado, cantidad: parseInt(e.target.value) })}
-              />
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Cantidad</label>
+                <input
+                  type="number"
+                  className="border-2 border-gold-300 px-4 py-2 rounded w-full"
+                  value={newInvitado.cantidad}
+                  onChange={(e) => setNewInvitado({ ...newInvitado, cantidad: parseInt(e.target.value) })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Código</label>
+                <input
+                  type="text"
+                  className="border-2 border-gold-300 px-4 py-2 rounded w-full bg-gray-100"
+                  value={newInvitado.codigo}
+                  disabled
+                />
+              </div>
+              <div className="flex items-end">
+                <label className="flex items-center cursor-pointer h-[42px]">
+                  <input
+                    type="checkbox"
+                    className="mr-2 w-5 h-5"
+                    checked={newInvitado.plural}
+                    onChange={(e) => setNewInvitado({ ...newInvitado, plural: e.target.checked })}
+                  />
+                  <span className="text-sm font-medium text-gray-700">¿Plural?</span>
+                </label>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Código</label>
-              <input
-                type="text"
-                className="border-2 border-gold-300 px-4 py-2 rounded w-full bg-gray-100"
-                value={newInvitado.codigo}
-                disabled
-              />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Parte</label>
+                <select
+                  className="border-2 border-gold-300 px-4 py-2 rounded w-full"
+                  value={newInvitado.parte}
+                  onChange={(e) => setNewInvitado({ ...newInvitado, parte: e.target.value as 'Marcelo' | 'Marcela' })}
+                >
+                  <option value="Marcelo">Marcelo</option>
+                  <option value="Marcela">Marcela</option>
+                  <option value="Mama">Mama</option>
+                </select>
+              </div>
+
+              <div className="flex items-end justify-end">
+                <button
+                  className="bg-gold-500 text-white px-6 py-2 rounded hover:bg-gold-600 font-medium shadow-md hover:shadow-lg transition-all w-full sm:w-auto"
+                  onClick={handleAddInvitado}
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                className="mr-2 w-5 h-5"
-                checked={newInvitado.plural}
-                onChange={(e) => setNewInvitado({ ...newInvitado, plural: e.target.checked })}
-              />
-              <label className="text-sm font-medium text-gray-700">¿Plural?</label>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Parte</label>
-              <select
-                className="border-2 border-gold-300 px-4 py-2 rounded w-full"
-                value={newInvitado.parte}
-                onChange={(e) => setNewInvitado({ ...newInvitado, parte: e.target.value as 'Marcelo' | 'Marcela' })}
-              >
-                <option value="Marcelo">Marcelo</option>
-                <option value="Marcela">Marcela</option>
-                <option value="Mama">Mama</option>
-              </select>
-            </div>
-            <button
-              className="bg-gold-500 text-white px-4 py-2 rounded hover:bg-gold-600 w-full font-medium"
-              onClick={handleAddInvitado}
-            >
-              Guardar
-            </button>
           </div>
         </Modal>
       )}
@@ -468,6 +567,8 @@ const AdminPage: React.FC = () => {
           </button>
         </Modal>
       )}
+
+      <div style={{ display: 'none' }} id="printable-report"></div>
     </div>
   );
 };

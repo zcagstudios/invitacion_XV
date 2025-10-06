@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-white/90 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/50"
+        className="relative w-full max-w-2xl bg-white/90 backdrop-blur-lg p-6 md:p-8 rounded-3xl shadow-2xl border border-white/50 max-h-[90vh] overflow-y-auto"
         style={{
           boxShadow: '0 8px 32px 0 rgba(168, 85, 247, 0.3)',
         }}

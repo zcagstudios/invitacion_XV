@@ -9,11 +9,11 @@ const AccountModal: React.FC = () => {
   });
 
   // Datos de cuenta - MODIFICA ESTOS DATOS
-  const accountNumber = '1234 5678 9012 3456';
-  const accountName = 'Nombre del Titular';
-  const bankName = 'Banco';
-  const cuentaBancaria = '012 345 67890123456 7';
-  const concepto = 'Regalo XV Años';
+  const accountNumber = '4162 3141 0286 5287';
+  const accountName = 'Ana Luisa Anduaga';
+  const bankName = 'BBVA';
+  const cuentaBancaria = '012 760 01433748030 3';
+  const concepto = 'XV Años Marcelos';
 
   const copyToClipboard = (text: string, type: 'tarjeta' | 'cuenta') => {
     navigator.clipboard.writeText(text);

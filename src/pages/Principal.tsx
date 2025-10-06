@@ -48,7 +48,7 @@ function Principal() {
           title="Recepción"
           content="Después de la ceremonia religiosa, los esperamos para celebrar juntos esta noche mágica llena de alegría, música y buenos momentos."
           horario="8:00 PM - 1:00 AM"
-          direccion="Fiestas del Recuerdo, Blvd. Luis Donaldo Colosio 305, Villa Satélite, 83200 Hermosillo, Son."
+          direccion="Callejo, Av. José María Mendoza 261, Balderrama, 83180 Hermosillo, Son."
           imageUrl="/recepcion.png"
           subcomponente={
             <div className="flex flex-row justify-center items-center gap-3 mt-6">

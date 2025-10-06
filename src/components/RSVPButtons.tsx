@@ -41,35 +41,35 @@ export const RSVPButtons: React.FC<RSVPButtonsProps> = ({ onStatusChange, intSta
         onValueChange={handleValueChange}
         className="flex flex-col sm:flex-row justify-center gap-4"
       >
-        <div className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-green-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+        <Label
+          htmlFor="si"
+          className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-green-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+        >
           <RadioGroupItem value={RSVPStatus.attending} id="si" />
-          <Label
-            htmlFor="si"
-            className="text-base font-medium cursor-pointer text-green-700"
-          >
+          <span className="text-base font-medium text-green-700">
             ✓ Sí asistiré
-          </Label>
-        </div>
+          </span>
+        </Label>
 
-        <div className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-gold-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+        <Label
+          htmlFor="pendiente"
+          className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-gold-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+        >
           <RadioGroupItem value={RSVPStatus.pending} id="pendiente" />
-          <Label
-            htmlFor="pendiente"
-            className="text-base font-medium cursor-pointer text-gold-700"
-          >
+          <span className="text-base font-medium text-gold-700">
             ⏳ Pendiente
-          </Label>
-        </div>
+          </span>
+        </Label>
 
-        <div className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-red-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+        <Label
+          htmlFor="no"
+          className="flex items-center space-x-2 bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-red-300/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+        >
           <RadioGroupItem value={RSVPStatus.notAttending} id="no" />
-          <Label
-            htmlFor="no"
-            className="text-base font-medium cursor-pointer text-red-700"
-          >
+          <span className="text-base font-medium text-red-700">
             ✗ No asistiré
-          </Label>
-        </div>
+          </span>
+        </Label>
       </RadioGroup>
     </div>
   );

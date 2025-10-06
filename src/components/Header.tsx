@@ -98,7 +98,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="mt-8">
-          <p className="text-purple-200 font-script text-2xl italic">
+          <p className="text-purple-200 font-script text-3xl italic">
             "La belleza se encuentra en el corazón"
           </p>
         </div>

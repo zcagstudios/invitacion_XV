@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
           <p className="text-base text-white/90">
             Hecho con 💛 para celebrar este día especial
           </p>
-          <p className="text-sm text-purple-200 mt-3 italic font-script text-xl">
+          <p className="text-sm text-purple-200 mt-3 italic font-script text-2xl">
             "La belleza se encuentra en el corazón"
           </p>
         </div>
